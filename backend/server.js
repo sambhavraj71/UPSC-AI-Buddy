@@ -18,7 +18,17 @@ const SECRET = process.env.JWT_SECRET || "supersecretkey";
 connectDB();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: [
+        "https://*.vercel.app",
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://localhost:5500"
+    ],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
 app.use(express.json());
 
 // 🔑 Gemini AI Setup
