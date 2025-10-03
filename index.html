@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UPSC AI Buddy - Your Smart Study Companion</title>
+  <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <h1>📚 UPSC AI Buddy</h1>
+        <p>Your Intelligent Study Companion</p>
+      </div>
+      <div class="user-info">
+        <span id="user-name">Guest</span>
+        <div class="streak-counter">
+          🔥 <span id="streak-count">0</span> days
+        </div>
+        <button onclick="openModal('login-modal')" class="auth-btn">Login</button>
+        <button onclick="openModal('signup-modal')" class="auth-btn">Signup</button>
+      </div>
+    </header>
+
+    <!-- Main Dashboard -->
+    <main class="main-content">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="progress-card">
+          <h3>📊 Your Progress</h3>
+          <div class="progress-item">
+            <label>GS Prelims Completion</label>
+            <div class="progress-bar">
+              <div id="gs-progress" class="progress-fill" style="width: 0%"></div>
+            </div>
+            <span id="gs-progress-value">0%</span>
+          </div>
+          <div class="progress-item">
+            <label>Answer Writing Practice</label>
+            <div class="progress-bar">
+              <div id="answer-progress" class="progress-fill" style="width: 0%"></div>
+            </div>
+            <span id="answer-progress-value">0%</span>
+          </div>
+        </div>
+
+        <div class="daily-tasks">
+          <h3>✅ Today's Tasks</h3>
+          <ul id="task-list"></ul>
+          <input type="text" id="new-task" placeholder="Add new task">
+          <button onclick="addTask()">➕ Add Task</button>
+        </div>
+
+        <div class="quick-actions">
+          <h3>⚡ Quick Actions</h3>
+          <button class="action-btn" onclick="openModal('quiz-modal')">Generate Quiz</button>
+          <button class="action-btn" onclick="openAnswerEvaluator()">Evaluate Answer</button>
+          <button class="action-btn" onclick="generateStudyPlan()">Study Plan</button>
+        </div>
+      </aside>
+
+      <!-- Content Area -->
+      <section class="content-area">
+        <!-- AI Chat Interface -->
+        <div class="ai-chat-section">
+          <div class="chat-header">
+            <h2>🤖 AI Study Buddy</h2>
+            <div class="chat-options">
+              <button class="option-btn active" data-context="general">General</button>
+              <button class="option-btn" data-context="answer-eval">Answer Evaluation</button>
+              <button class="option-btn" data-context="quiz">Quiz Generator</button>
+            </div>
+          </div>
+          <div class="chat-messages" id="chat-messages">
+            <div class="message ai-message">
+              <div class="message-content">
+                <strong>AI Buddy:</strong> Hello! I'm your UPSC AI study buddy.  
+                I can help you with:
+                <ul>
+                  <li>Explaining complex topics</li>
+                  <li>Evaluating your answers</li>
+                  <li>Generating practice questions</li>
+                  <li>Creating study plans</li>
+                </ul>
+                How can I assist you today?
+              </div>
+            </div>
+          </div>
+          <div class="chat-input-container">
+            <div class="input-group">
+              <input type="text" id="user-input" placeholder="Ask me anything about UPSC preparation..." maxlength="500">
+              <button onclick="sendMessage()" id="send-btn">Send</button>
+            </div>
+            <div class="input-actions">
+              <button class="suggestion-btn" onclick="insertSuggestion('Explain the Indian Constitution basics')">Constitution</button>
+              <button class="suggestion-btn" onclick="insertSuggestion('Give me current affairs questions')">Current Affairs</button>
+              <button class="suggestion-btn" onclick="insertSuggestion('Create a study plan for History')">Study Plan</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Study Materials -->
+        <div class="materials-section">
+          <h3>📚 Study Materials</h3>
+          <div class="materials-grid">
+            <div class="material-card" onclick="openSyllabusTracker()">
+              <h4>Syllabus Tracker</h4>
+              <p>Track your completion status</p>
+            </div>
+            <div class="material-card" onclick="openPreviousPapers()">
+              <h4>PYQ Bank</h4>
+              <p>Previous year questions</p>
+            </div>
+            <div class="material-card" onclick="openNotes()">
+              <h4>Smart Notes</h4>
+              <p>AI-generated summaries</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Quiz Modal -->
+  <div id="quiz-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('quiz-modal')">&times;</span>
+      <h3>🎯 Generate Quiz</h3>
+      <div class="modal-body">
+        <select id="quiz-topic">
+          <option value="polity">Polity</option>
+          <option value="history">History</option>
+          <option value="geography">Geography</option>
+          <option value="economics">Economics</option>
+        </select>
+        <select id="quiz-difficulty">
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+        <button onclick="generateQuizWithAI()" class="generate-btn">Generate Quiz</button>
+        <div id="quiz-results"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div id="login-modal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('login-modal')">&times;</span>
+      <h3>🔑 Login</h3>
+      <input type="email" id="login-email" placeholder="Email">
+      <input type="password" id="login-password" placeholder="Password">
+      <button onclick="loginUser()">Login</button>
+      <p>Don’t have an account? <a href="#" onclick="openModal('signup-modal')">Signup</a></p>
+    </div>
+  </div>
+
+  <!-- Signup Modal -->
+  <div id="signup-modal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('signup-modal')">&times;</span>
+      <h3>📝 Signup</h3>
+      <input type="text" id="signup-name" placeholder="Full Name">
+      <input type="email" id="signup-email" placeholder="Email">
+      <input type="password" id="signup-password" placeholder="Password">
+      <button onclick="signupUser()">Signup</button>
+    </div>
+  </div>
+
+  <script src="scripts/app.js"></script>
+</body>
+</html>
