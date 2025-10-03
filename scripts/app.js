@@ -4,7 +4,7 @@ class UPSCAIBuddy {
         this.currentContext = 'general';
         this.currentUser = null;
         this.token = localStorage.getItem('token');
-        this.API_BASE = 'http://localhost:3000/api';
+        this.API_BASE = 'https://upsc-ai-buddy.onrender.com';
         
         this.init();
     }
